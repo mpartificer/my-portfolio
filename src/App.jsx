@@ -109,7 +109,7 @@ export default function App() {
 
   // About Section Component
   const AboutSection = () => (
-    <section className="rounded-2xl p-8 backdrop-blur-lg shadow-xl max-w-2xl">
+    <section className="rounded-2xl p-8 backdrop-blur-lg max-h-96 overflow-scroll shadow-xl max-w-2xl">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-blue-900 mb-2 babycakes-font">
           {portfolioData.about.name}
@@ -131,12 +131,13 @@ export default function App() {
           {portfolioData.about.skills.map((skill) => (
             <span
               key={skill}
-              className="px-4 py-2 bg-blue-900 bg-opacity-10 text-blue-900 rounded-full font-medium"
+              className="px-4 py-2 bg-blue-900 bg-opacity-10 text-white rounded-full font-medium"
             >
               {skill}
             </span>
           ))}
         </div>
+        <SpotifyPlayer />
       </div>
     </section>
   );
@@ -242,7 +243,7 @@ export default function App() {
               fill="currentColor"
               viewBox="0 0 24 24"
             >
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
             </svg>
           </div>
           <span className="text-blue-900 font-medium">LinkedIn</span>
@@ -270,14 +271,14 @@ export default function App() {
     </section>
   );
 
-  // Spotify Player Component
+  // Spotify Player Component - MODIFIED TO FLOW WITH CONTENT
   const SpotifyPlayer = () => (
-    <div className="fixed left-4 bottom-4 z-20 rounded-lg overflow-hidden shadow-lg backdrop-blur-sm bg-white bg-opacity-20 transition-opacity hover:opacity-100 opacity-90">
+    <div className="mt-8 rounded-lg overflow-hidden backdrop-blur-sm flex justify-center transition-opacity hover:opacity-100 opacity-90">
       <iframe
         data-testid="embed-iframe"
         style={{ borderRadius: "12px" }}
         src="https://open.spotify.com/embed/track/6xkryXuiZU360Lngd4sx13?utm_source=generator&theme=0"
-        width="300"
+        width="608"
         height="152"
         frameBorder="0"
         allowFullScreen=""
@@ -440,9 +441,6 @@ export default function App() {
       {/* Pattern Background */}
       <PatternBackground />
 
-      {/* Spotify Player */}
-      <SpotifyPlayer />
-
       {/* Layout Container */}
       <div className="flex flex-col w-full max-w-6xl mx-auto mt-16 relative z-10 py-12">
         {/* Banner */}
@@ -487,7 +485,12 @@ export default function App() {
             {/* Main Content */}
             <main className="flex-1">
               <div className="transition-all duration-500">
-                {activeSection === "about" && <AboutSection />}
+                {activeSection === "about" && (
+                  <div>
+                    <AboutSection />
+                    {/* Add SpotifyPlayer below the about section */}
+                  </div>
+                )}
                 {activeSection === "projects" && <ProjectsSection />}
                 {activeSection === "contact" && <ContactSection />}
               </div>
