@@ -1,4 +1,10 @@
+// Import all images at the top
 import headshot from "../../public/images/headshot.jpeg";
+import msbImage from "../../public/images/msb-image.jpg";
+import siiiiftImg from "../../public/images/siiiift-img.jpg";
+import nytImg from "../../public/images/nyt-img.jpg";
+import kwmImg from "../../public/images/kwm-img.jpg";
+import nhbImg from "../../public/images/nhb-img.jpg";
 
 // Portfolio content - replace with your own information
 const PortfolioData = {
@@ -43,7 +49,7 @@ const PortfolioData = {
         "AWS Cognito",
       ],
       link: "https://main.d20ggo7f8vo06n.amplifyapp.com/",
-      imageUrl: "/images/msb-image.jpg",
+      imageUrl: msbImage, // Changed
     },
     {
       id: 2,
@@ -71,7 +77,7 @@ const PortfolioData = {
         "Node.js",
       ],
       link: "https://mpartificer.github.io/siiiift/#/",
-      imageUrl: "/images/siiiift-img.jpg",
+      imageUrl: siiiiftImg, // Changed
     },
     {
       id: 3,
@@ -84,7 +90,7 @@ const PortfolioData = {
       ],
       technologies: ["Python", "Git Actions", "New York Times API"],
       link: "https://github.com/mpartificer",
-      imageUrl: "/images/nyt-img.jpg",
+      imageUrl: nytImg, // Changed
     },
     {
       id: 4,
@@ -97,7 +103,7 @@ const PortfolioData = {
       ],
       technologies: ["React", "Vite", "Vercel", "Google OAuth", "Meta OAuth"],
       link: "https://karaoke-with-megan-website.vercel.app/#home",
-      imageUrl: "/images/kwm-img.jpg",
+      imageUrl: kwmImg, // Changed
     },
     {
       id: 5,
@@ -117,7 +123,7 @@ const PortfolioData = {
         "Web Speech API",
       ],
       link: "https://mpartificer.github.io/NoHandsBaking/",
-      imageUrl: "/images/nhb-img.jpg",
+      imageUrl: nhbImg, // Changed
     },
   ],
   contact: {
