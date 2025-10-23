@@ -9,12 +9,39 @@ const getRandomColorClass = () => {
   return colors[randomIndex];
 };
 
+// Function to get a random background color class with higher opacity for smaller elements
+const getRandomColorClassHighOpacity = () => {
+  // Using higher opacity classes (bg-{color}-200 for better visibility on small elements)
+  const colors = [
+    "bg-pink-200",
+    "bg-yellow-200",
+    "bg-green-200",
+    "bg-teal-200",
+  ];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
+
 // Pre-assign random colors to all technologies across all projects to maintain consistency during rerenders
 const technologyColors = PortfolioData.projects.reduce((acc, project) => {
   project.technologies.forEach((tech) => {
     if (!acc[tech]) {
       acc[tech] = getRandomColorClass();
     }
+  });
+  return acc;
+}, {});
+
+// Pre-assign random colors to all bullet points across all projects to maintain consistency during rerenders
+const bulletPointColors = PortfolioData.projects.reduce((acc, project) => {
+  // Create unique keys for each bullet point by combining project ID with bullet point index
+  project.description.forEach((point, index) => {
+    const key = `${project.id}-what-${index}`;
+    acc[key] = getRandomColorClassHighOpacity();
+  });
+  project.why.forEach((point, index) => {
+    const key = `${project.id}-why-${index}`;
+    acc[key] = getRandomColorClassHighOpacity();
   });
   return acc;
 }, {});
@@ -133,7 +160,11 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                   <ul className="space-y-2 text-blue-900 text-left">
                     {project.description.map((point, i) => (
                       <li key={i} className="flex items-start">
-                        <span className="inline-block w-4 h-4 mr-2 mt-1 rounded-full bg-blue"></span>
+                        <span
+                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full ${
+                            bulletPointColors[`${project.id}-what-${i}`]
+                          }`}
+                        ></span>
                         {point}
                       </li>
                     ))}
@@ -146,7 +177,11 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                   <ul className="space-y-2 text-blue-900 text-left">
                     {project.why.map((point, i) => (
                       <li key={i} className="flex items-start">
-                        <span className="inline-block w-4 h-4 mr-2 mt-1 rounded-full bg-pink"></span>
+                        <span
+                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full ${
+                            bulletPointColors[`${project.id}-why-${i}`]
+                          }`}
+                        ></span>
                         {point}
                       </li>
                     ))}
