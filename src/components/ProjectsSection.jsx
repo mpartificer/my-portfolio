@@ -155,7 +155,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
                 <div className="text-center">
                   <h3 className="text-xl text-blue-900 mb-4 babycakes-font">
-                    What it does
+                    What ?
                   </h3>
                   <ul className="space-y-2 text-blue-900 text-left">
                     {project.description.map((point, i) => (
@@ -172,7 +172,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                 </div>
                 <div className="text-center">
                   <h3 className="text-xl text-blue-900 mb-4 babycakes-font">
-                    Why it's cool
+                    Why ?
                   </h3>
                   <ul className="space-y-2 text-blue-900 text-left">
                     {project.why.map((point, i) => (
