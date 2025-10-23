@@ -3,6 +3,7 @@ import WelcomeBanner from "./components/WelcomeBanner";
 import AboutSection from "./components/AboutSection";
 import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
+import ProjectsDropdown from "./components/ProjectsDropdown";
 
 // Main App Component
 export default function App() {
@@ -13,6 +14,8 @@ export default function App() {
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
+  const welcomeRef = useRef(null);
+  const projectsSectionRef = useRef(null);
 
   // Scroll to section when activeSection changes
   useEffect(() => {
@@ -30,6 +33,64 @@ export default function App() {
       });
     }
   }, [activeSection]);
+
+  // Scroll-based navigation detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        { ref: welcomeRef, id: "" },
+        { ref: aboutRef, id: "about" },
+        { ref: projectsRef, id: "projects" },
+        { ref: contactRef, id: "contact" },
+      ];
+
+      // Get current scroll position
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      // Find which section is currently in view
+      let currentSection = "";
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section.ref?.current) {
+          const rect = section.ref.current.getBoundingClientRect();
+          const sectionTop = rect.top + window.scrollY;
+
+          // If we've scrolled past the middle of this section
+          if (scrollPosition >= sectionTop) {
+            currentSection = section.id;
+            break;
+          }
+        }
+      }
+
+      // Only update if the section has changed
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [activeSection]);
+
+  // Handle project hover navigation
+  const handleProjectHover = (projectId) => {
+    if (projectsSectionRef.current) {
+      projectsSectionRef.current.scrollToProject(projectId);
+    }
+  };
+
+  const handleProjectLeave = () => {
+    // Optional: Add any cleanup logic here if needed
+  };
 
   // Component for decorative background patterns inspired by the color-blocked striped shirt
   const PatternBackground = () => (
@@ -372,35 +433,53 @@ export default function App() {
       {/* Navbar - New horizontal navigation with visibility toggle */}
       <nav className={`navbar ${navbarVisible ? "visible" : ""}`}>
         <div className="nav-items">
-          {[
-            { id: "about", label: "My Story" },
-            { id: "projects", label: "My Work" },
-            { id: "contact", label: "Let's Collab!" },
-          ].map((section) => (
-            <div
-              key={section.id}
-              onMouseEnter={() => setActiveSection(section.id)}
-              className={`
-                px-4 py-2 transition-all duration-300 cursor-pointer rounded-full
-                ${
-                  activeSection === section.id
-                    ? "bg-blue-900 text-white shadow-md scale-105"
-                    : "text-blue-900 hover:bg-blue-900 hover:bg-opacity-10"
-                }
-              `}
-            >
-              <span className="babycakes-font text-lg font-medium">
-                {section.label}
-              </span>
-            </div>
-          ))}
+          {/* About Section */}
+          <div
+            onMouseEnter={() => setActiveSection("about")}
+            className={`
+              px-4 py-2 transition-all duration-300 cursor-pointer rounded-full
+              ${
+                activeSection === "about"
+                  ? "bg-blue-900 text-white shadow-md scale-105"
+                  : "text-blue-900 hover:bg-blue-900 hover:bg-opacity-10"
+              }
+            `}
+          >
+            <span className="babycakes-font text-lg font-medium">My Story</span>
+          </div>
+
+          {/* Projects Dropdown */}
+          <ProjectsDropdown
+            onProjectHover={handleProjectHover}
+            onProjectLeave={handleProjectLeave}
+          />
+
+          {/* Contact Section */}
+          <div
+            onMouseEnter={() => setActiveSection("contact")}
+            className={`
+              px-4 py-2 transition-all duration-300 cursor-pointer rounded-full
+              ${
+                activeSection === "contact"
+                  ? "bg-blue-900 text-white shadow-md scale-105"
+                  : "text-blue-900 hover:bg-blue-900 hover:bg-opacity-10"
+              }
+            `}
+          >
+            <span className="babycakes-font text-lg font-medium">
+              Let's Collab!
+            </span>
+          </div>
         </div>
       </nav>
 
       {/* Layout Container */}
       <div className="flex flex-col w-full max-w-6xl mx-auto relative z-10">
         {/* Banner with animation completion callback */}
-        <div className="w-full h-screen flex flex-col justify-center align-center">
+        <div
+          ref={welcomeRef}
+          className="w-full h-screen flex flex-col justify-center align-center"
+        >
           <WelcomeBanner
             onAnimationComplete={() => {
               if (!welcomeAnimationCompleteRef.current) {
@@ -421,6 +500,7 @@ export default function App() {
             <div className="transition-all w-[80vw] duration-500 flex flex-col gap-12">
               <AboutSection aboutRef={aboutRef} />
               <ProjectsSection
+                ref={projectsSectionRef}
                 projectsRef={projectsRef}
                 activeSection={activeSection}
                 projectsContainerRef={projectsContainerRef}
