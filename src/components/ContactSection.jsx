@@ -14,7 +14,7 @@ const ContactSection = () => {
         <div className="mb-8 text-center">
           <a
             href={`mailto:${PortfolioData.contact.email}`}
-            className="flex items-center justify-center group hover:text-blue-700 transition-colors"
+            className="flex items-center justify-center group hover:text-navy transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ const ContactSection = () => {
             href={PortfolioData.contact.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="group hover:text-blue-700 transition-colors"
+            className="group hover:text-navy transition-colors"
             title="GitHub"
           >
             <svg
@@ -56,7 +56,7 @@ const ContactSection = () => {
             href={PortfolioData.contact.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="group hover:text-blue-700 transition-colors"
+            className="group hover:text-navy transition-colors"
             title="LinkedIn"
           >
             <svg

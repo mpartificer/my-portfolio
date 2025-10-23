@@ -119,7 +119,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-3xl font-bold text-blue-900 babycakes-font hover:text-blue-700 transition-colors"
+                    className="text-3xl font-bold text-blue-900 babycakes-font hover:text-navy hover:scale-110 transition-all duration-300 ease-in-out inline-block"
                   >
                     {project.title}
                   </a>
