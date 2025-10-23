@@ -12,6 +12,7 @@ export default function App() {
   const [navbarVisible, setNavbarVisible] = useState(false);
   const welcomeAnimationCompleteRef = useRef(false);
   const aboutRef = useRef(null);
+  const myWorkHeaderRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
   const welcomeRef = useRef(null);
@@ -23,6 +24,7 @@ export default function App() {
   useEffect(() => {
     const sectionRefs = {
       about: aboutRef,
+      projects: myWorkHeaderRef,
       contact: contactRef,
     };
 
@@ -38,25 +40,11 @@ export default function App() {
       // Set manual navigation flag to prevent scroll detection interference
       isManualNavigationRef.current = true;
 
-      // Special handling for projects section - scroll to last project
-      if (activeSection === "projects") {
-        const projectElements = Object.values(projectRefs.current).filter(
-          Boolean
-        );
-        const lastProject = projectElements[projectElements.length - 1];
-        if (lastProject) {
-          lastProject.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      } else {
-        // Simple scroll to target
-        targetRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+      // Simple scroll to target (now includes My Work header for projects)
+      targetRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
 
       // Reset manual navigation flag after scroll completes (shorter timeout)
       manualNavigationTimeoutRef.current = setTimeout(() => {
@@ -66,74 +54,7 @@ export default function App() {
     }
   }, [activeSection]);
 
-  // Scroll-based navigation detection
-  useEffect(() => {
-    const handleScroll = () => {
-      // Skip scroll detection during manual navigation, but with a shorter timeout
-      if (isManualNavigationRef.current) {
-        return;
-      }
-
-      const sections = [
-        { ref: welcomeRef, id: "" },
-        { ref: aboutRef, id: "about" },
-        { ref: projectsRef, id: "projects" },
-        { ref: contactRef, id: "contact" },
-      ];
-
-      // Get current scroll position
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      // Find which section is currently in view
-      let currentSection = "";
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section.ref?.current) {
-          const rect = section.ref.current.getBoundingClientRect();
-          const sectionTop = rect.top + window.scrollY;
-
-          // If we've scrolled past the middle of this section
-          if (scrollPosition >= sectionTop) {
-            currentSection = section.id;
-            break;
-          }
-        }
-      }
-
-      // Only update if the section has changed
-      if (currentSection !== activeSection) {
-        console.log(
-          `Scroll detection changing activeSection from ${activeSection} to ${currentSection}`
-        );
-        setActiveSection(currentSection);
-      }
-    };
-
-    // Add scroll event listener with throttling
-    let scrollTimeout;
-    const throttledHandleScroll = () => {
-      if (scrollTimeout) return;
-      scrollTimeout = setTimeout(() => {
-        handleScroll();
-        scrollTimeout = null;
-      }, 50); // Throttle to 50ms
-    };
-
-    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
-
-    // Initial check
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      // Cleanup timeout on unmount
-      if (manualNavigationTimeoutRef.current) {
-        clearTimeout(manualNavigationTimeoutRef.current);
-      }
-    };
-  }, [activeSection]); // Re-add activeSection dependency for proper updates
+  // Disabled scroll-based navigation detection - using wheel event handler instead
 
   // Simple wheel event handler for snap scrolling
   useEffect(() => {
@@ -149,6 +70,7 @@ export default function App() {
       const allElements = [
         welcomeRef.current,
         aboutRef.current,
+        myWorkHeaderRef.current,
         // Add all project elements from refs
         ...Object.values(projectRefs.current).filter(Boolean),
         contactRef.current,
@@ -191,6 +113,8 @@ export default function App() {
           setActiveSection("");
         } else if (nextElement === aboutRef.current) {
           setActiveSection("about");
+        } else if (nextElement === myWorkHeaderRef.current) {
+          setActiveSection("projects");
         } else if (Object.values(projectRefs.current).includes(nextElement)) {
           setActiveSection("projects");
         } else if (nextElement === contactRef.current) {
@@ -659,12 +583,18 @@ export default function App() {
           {/* Main Content - now without the left menu */}
           <main className="">
             <div className="transition-all w-[80vw] duration-500 flex flex-col gap-12">
-              <div ref={aboutRef} className="snap-start snap-always">
+              <div
+                ref={aboutRef}
+                className="snap-start snap-always scroll-mt-24"
+              >
                 <AboutSection />
               </div>
 
               {/* Projects Header */}
-              <div className="text-center">
+              <div
+                ref={myWorkHeaderRef}
+                className="text-center snap-start snap-always scroll-mt-24"
+              >
                 <h1 className="text-4xl font-bold text-blue-900 mb-8 babycakes-font">
                   My Work
                 </h1>
