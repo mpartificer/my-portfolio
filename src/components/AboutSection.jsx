@@ -1,4 +1,4 @@
-import portfolioData from "../data/portfolioData";
+import PortfolioData from "../data/PortfolioData";
 import SpotifyPlayer from "./SpotifyPlayer";
 
 // Function to get a random background color class with opacity
@@ -10,7 +10,7 @@ const getRandomColorClass = () => {
 };
 
 // Pre-assign random colors to skills to maintain consistency during rerenders
-const skillColors = portfolioData.about.skills.reduce((acc, skill) => {
+const skillColors = PortfolioData.about.skills.reduce((acc, skill) => {
   acc[skill] = getRandomColorClass();
   return acc;
 }, {});
@@ -22,22 +22,22 @@ const AboutSection = ({ aboutRef }) => (
     className="rounded-2xl p-16 backdrop-blur-lg overflow-scroll h-[85vh] shadow-xl w-[80vw] scroll-mt-24"
   >
     <div className="flex flex-row gap-16 mb-8 items-start">
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <img
-          src={portfolioData.about.imageUrl}
+          src={PortfolioData.about.imageUrl}
           className="w-80 h-80 rounded-full object-cover shadow-lg"
           alt="Profile photo"
         />
       </div>
       <div className="flex-1 text-center mb-8 mt-2">
         <h1 className="text-4xl font-bold text-blue-900 mb-2 babycakes-font">
-          {portfolioData.about.name}
+          {PortfolioData.about.name}
         </h1>
         <h2 className="text-xl text-blue-900 mb-4 opacity-90">
-          {portfolioData.about.title}
+          {PortfolioData.about.title}
         </h2>
         <p className="text-blue-900 text-lg leading-relaxed">
-          {portfolioData.about.bio}
+          {PortfolioData.about.bio}
         </p>
       </div>
     </div>
@@ -46,7 +46,7 @@ const AboutSection = ({ aboutRef }) => (
         Skills & Technologies
       </h3>
       <div className="flex flex-wrap gap-2">
-        {portfolioData.about.skills.map((skill) => (
+        {PortfolioData.about.skills.map((skill) => (
           <span
             key={skill}
             className={`px-4 py-2 ${skillColors[skill]} text-blue-900 rounded-full font-medium`}

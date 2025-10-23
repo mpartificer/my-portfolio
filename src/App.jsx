@@ -16,6 +16,8 @@ export default function App() {
   const contactRef = useRef(null);
   const welcomeRef = useRef(null);
   const projectsSectionRef = useRef(null);
+  const isManualNavigationRef = useRef(false);
+  const manualNavigationTimeoutRef = useRef(null);
 
   // Scroll to section when activeSection changes
   useEffect(() => {
@@ -26,17 +28,41 @@ export default function App() {
     };
 
     const targetRef = sectionRefs[activeSection];
-    if (targetRef?.current) {
+    if (targetRef?.current && activeSection) {
+      console.log(`Scrolling to section: ${activeSection}`);
+
+      // Clear any existing timeout
+      if (manualNavigationTimeoutRef.current) {
+        clearTimeout(manualNavigationTimeoutRef.current);
+      }
+
+      // Set manual navigation flag to prevent scroll detection interference
+      isManualNavigationRef.current = true;
+
       targetRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
+
+      // Reset manual navigation flag after scroll completes (longer timeout)
+      manualNavigationTimeoutRef.current = setTimeout(() => {
+        isManualNavigationRef.current = false;
+        console.log(`Manual navigation timeout ended for: ${activeSection}`);
+      }, 2000); // Increased to 2 seconds
     }
   }, [activeSection]);
 
   // Scroll-based navigation detection
   useEffect(() => {
     const handleScroll = () => {
+      // Skip scroll detection during manual navigation
+      if (isManualNavigationRef.current) {
+        console.log(
+          "Skipping scroll detection - manual navigation in progress"
+        );
+        return;
+      }
+
       const sections = [
         { ref: welcomeRef, id: "" },
         { ref: aboutRef, id: "about" },
@@ -66,6 +92,9 @@ export default function App() {
 
       // Only update if the section has changed
       if (currentSection !== activeSection) {
+        console.log(
+          `Scroll detection changing activeSection from ${activeSection} to ${currentSection}`
+        );
         setActiveSection(currentSection);
       }
     };
@@ -78,8 +107,12 @@ export default function App() {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      // Cleanup timeout on unmount
+      if (manualNavigationTimeoutRef.current) {
+        clearTimeout(manualNavigationTimeoutRef.current);
+      }
     };
-  }, [activeSection]);
+  }, []); // Remove activeSection dependency to prevent circular updates
 
   // Handle project hover navigation
   const handleProjectHover = (projectId) => {
@@ -90,6 +123,11 @@ export default function App() {
 
   const handleProjectLeave = () => {
     // Optional: Add any cleanup logic here if needed
+  };
+
+  const handleMainWorkHover = () => {
+    console.log("My Work hover triggered");
+    setActiveSection("projects");
   };
 
   // Component for decorative background patterns inspired by the color-blocked striped shirt
@@ -435,7 +473,10 @@ export default function App() {
         <div className="nav-items">
           {/* About Section */}
           <div
-            onMouseEnter={() => setActiveSection("about")}
+            onMouseEnter={() => {
+              console.log("My Story hover triggered");
+              setActiveSection("about");
+            }}
             className={`
               px-4 py-2 transition-all duration-300 cursor-pointer rounded-full
               ${
@@ -452,11 +493,15 @@ export default function App() {
           <ProjectsDropdown
             onProjectHover={handleProjectHover}
             onProjectLeave={handleProjectLeave}
+            onMainHover={handleMainWorkHover}
           />
 
           {/* Contact Section */}
           <div
-            onMouseEnter={() => setActiveSection("contact")}
+            onMouseEnter={() => {
+              console.log("Let's Collab hover triggered");
+              setActiveSection("contact");
+            }}
             className={`
               px-4 py-2 transition-all duration-300 cursor-pointer rounded-full
               ${

@@ -72,7 +72,7 @@ const ProjectsSection = forwardRef(
         {/* Projects container with snap scroll */}
         <div
           ref={projectsContainerRef}
-          className="space-y-12 overflow-y-auto  snap-y snap-mandatory scroll-smooth"
+          className="space-y-12 snap-y snap-mandatory scroll-smooth"
           style={{
             scrollSnapType: "y mandatory",
             scrollBehavior: "smooth",
@@ -113,7 +113,7 @@ const ProjectsSection = forwardRef(
               </div>
 
               <div className="relative z-10">
-                <div className="bg-white bg-opacity-90 p-6 rounded-xl shadow-sm">
+                <div className="bg-white bg-opacity-90 h-[80vh] p-6 rounded-xl shadow-sm">
                   <h2 className="text-2xl font-bold text-blue-900 mb-6 babycakes-font">
                     {project.title}
                   </h2>

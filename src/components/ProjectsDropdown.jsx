@@ -1,13 +1,19 @@
 import { useState, useRef } from "react";
 import PortfolioData from "../data/PortfolioData";
 
-const ProjectsDropdown = ({ onProjectHover, onProjectLeave }) => {
+const ProjectsDropdown = ({ onProjectHover, onProjectLeave, onMainHover }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleProjectHover = (projectId) => {
     if (onProjectHover) {
       onProjectHover(projectId);
+    }
+  };
+
+  const handleMainHover = () => {
+    if (onMainHover) {
+      onMainHover();
     }
   };
 
@@ -24,7 +30,10 @@ const ProjectsDropdown = ({ onProjectHover, onProjectLeave }) => {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <div className="px-4 py-2 transition-all duration-300 cursor-pointer rounded-full text-blue-900 hover:bg-blue-900 hover:bg-opacity-10 flex items-center gap-2">
+      <div
+        className="px-4 py-2 transition-all duration-300 cursor-pointer rounded-full text-blue-900 hover:bg-blue-900 hover:bg-opacity-10 flex items-center gap-2"
+        onMouseEnter={handleMainHover}
+      >
         <span className="babycakes-font text-lg font-medium">My Work</span>
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${
