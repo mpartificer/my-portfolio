@@ -43,7 +43,7 @@ const PortfolioData = {
         "AWS Cognito",
       ],
       link: "https://main.d20ggo7f8vo06n.amplifyapp.com/",
-      imageUrl: "../public/images/msb-image.jpg",
+      imageUrl: "/images/msb-image.jpg",
     },
     {
       id: 2,
@@ -71,7 +71,7 @@ const PortfolioData = {
         "Node.js",
       ],
       link: "https://mpartificer.github.io/siiiift/#/",
-      imageUrl: "../public/images/siiiift-img.jpg",
+      imageUrl: "/images/siiiift-img.jpg",
     },
     {
       id: 3,
@@ -84,7 +84,7 @@ const PortfolioData = {
       ],
       technologies: ["Python", "Git Actions", "New York Times API"],
       link: "https://github.com/mpartificer",
-      imageUrl: "../public/images/nyt-img.jpg",
+      imageUrl: "/images/nyt-img.jpg",
     },
     {
       id: 4,
@@ -97,7 +97,7 @@ const PortfolioData = {
       ],
       technologies: ["React", "Vite", "Vercel", "Google OAuth", "Meta OAuth"],
       link: "https://karaoke-with-megan-website.vercel.app/#home",
-      imageUrl: "../public/images/kwm-img.jpg",
+      imageUrl: "/images/kwm-img.jpg",
     },
     {
       id: 5,
@@ -117,7 +117,7 @@ const PortfolioData = {
         "Web Speech API",
       ],
       link: "https://mpartificer.github.io/NoHandsBaking/",
-      imageUrl: "../public/images/nhb-img.jpg",
+      imageUrl: "/images/nhb-img.jpg",
     },
   ],
   contact: {
