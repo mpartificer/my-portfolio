@@ -28,13 +28,11 @@ const PortfolioData = {
       title: "My Speech Balloon",
       description: [
         "Web app for Gestalt's Language Processors",
-        "Helps children with verbal development",
-        "Intuitive interface for speech exercises",
+        "Helps non-verbal Autistic children with communication",
       ],
       why: [
-        "Designed alongside Speech Language Pathologists",
-        "Makes therapy more engaging for children",
-        "Helping kids talk rocks!",
+        "Designed alongside Speech Language Pathologists for the Get Building Ventures wing",
+        "Bit of a tearjerker, no? Tech for the greater good and all",
       ],
       technologies: ["React"],
       link: "https://main.d20ggo7f8vo06n.amplifyapp.com/",
@@ -42,16 +40,16 @@ const PortfolioData = {
     },
     {
       id: 2,
-      title: "Project Two",
+      title: "siiiift",
       description: [
-        "Mobile-first e-commerce platform",
-        "Real-time inventory management",
-        "Responsive design for all devices",
+        "AI-powered journaling app for hobby bakers",
+        "Gives feedback on baking progress and recipes",
+        "Saves recipes from the web and cookbooks",
+        "Social media functionality for sharing bakes",
       ],
       why: [
-        "Helps small businesses compete online",
-        "Enterprise-level inventory control",
-        "Superior customer experience",
+        "I was really over my pie crust being bad",
+        "Gave me an opportunity to learn React, Node.js, and SQL",
       ],
       technologies: ["React Native", "Redux", "Node.js", "MongoDB"],
       link: "#",
@@ -59,7 +57,56 @@ const PortfolioData = {
     },
     {
       id: 3,
-      title: "Project Three",
+      title: "Chefster",
+      description: [
+        "API service for research institutions",
+        "Processes and analyzes large datasets",
+        "Scalable architecture for big data",
+      ],
+      why: [
+        "Democratizes access to big data processing",
+        "Supports smaller research teams",
+        "Reduces technical barriers to entry",
+      ],
+      technologies: ["Python", "Flask", "PostgreSQL", "Docker"],
+      link: "#",
+      imageUrl: "https://source.unsplash.com/random/800x400?data,analysis",
+    },
+    {
+      id: 4,
+      title: "NYT Crossword Humble Brag Cronjob",
+      description: [
+        "Web app for Gestalt's Language Processors",
+        "Helps non-verbal Autistic children with communication",
+      ],
+      why: [
+        "Designed alongside Speech Language Pathologists for the Get Building Ventures wing",
+        "Bit of a tearjerker, no? Tech for the greater good and all",
+      ],
+      technologies: ["React"],
+      link: "https://main.d20ggo7f8vo06n.amplifyapp.com/",
+      imageUrl: "../public/images/msb-image.jpg",
+    },
+    {
+      id: 5,
+      title: "Karaoke with Megan Website",
+      description: [
+        "AI-powered journaling app for hobby bakers",
+        "Gives feedback on baking progress and recipes",
+        "Saves recipes from the web and cookbooks",
+        "Social media functionality for sharing bakes",
+      ],
+      why: [
+        "I was really over my pie crust being bad",
+        "Gave me an opportunity to learn React, Node.js, and SQL",
+      ],
+      technologies: ["React Native", "Redux", "Node.js", "MongoDB"],
+      link: "#",
+      imageUrl: "https://source.unsplash.com/random/800x400?ecommerce,mobile",
+    },
+    {
+      id: 6,
+      title: "No Hands Baking!",
       description: [
         "API service for research institutions",
         "Processes and analyzes large datasets",
