@@ -1,12 +1,9 @@
 import PortfolioData from "../data/PortfolioData";
 
 // Contact Section Component
-const ContactSection = ({ contactRef }) => {
+const ContactSection = () => {
   return (
-    <section
-      ref={contactRef}
-      className="rounded-2xl mb-20 backdrop-blur-lg p-8 shadow-xl w-[80vw] h-[85vh] overflow-scroll scroll-mt-24"
-    >
+    <section className="rounded-2xl mb-20 backdrop-blur-lg p-8 shadow-xl w-[80vw] h-[85vh] overflow-scroll scroll-mt-24">
       {/* Contact Info and Social Links */}
       <div className="text-blue-900">
         <h1 className="text-2xl text-center font-bold mb-6 babycakes-font">

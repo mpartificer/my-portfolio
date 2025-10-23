@@ -8,7 +8,7 @@ import ProjectsDropdown from "./components/ProjectsDropdown";
 // Main App Component
 export default function App() {
   const [activeSection, setActiveSection] = useState("");
-  const projectsContainerRef = useRef(null);
+  const projectRefs = useRef({});
   const [navbarVisible, setNavbarVisible] = useState(false);
   const welcomeAnimationCompleteRef = useRef(false);
   const aboutRef = useRef(null);
@@ -23,7 +23,6 @@ export default function App() {
   useEffect(() => {
     const sectionRefs = {
       about: aboutRef,
-      projects: projectsRef,
       contact: contactRef,
     };
 
@@ -39,27 +38,39 @@ export default function App() {
       // Set manual navigation flag to prevent scroll detection interference
       isManualNavigationRef.current = true;
 
-      targetRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      // Special handling for projects section - scroll to last project
+      if (activeSection === "projects") {
+        const projectElements = Object.values(projectRefs.current).filter(
+          Boolean
+        );
+        const lastProject = projectElements[projectElements.length - 1];
+        if (lastProject) {
+          lastProject.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      } else {
+        // Simple scroll to target
+        targetRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
 
-      // Reset manual navigation flag after scroll completes (longer timeout)
+      // Reset manual navigation flag after scroll completes (shorter timeout)
       manualNavigationTimeoutRef.current = setTimeout(() => {
         isManualNavigationRef.current = false;
         console.log(`Manual navigation timeout ended for: ${activeSection}`);
-      }, 2000); // Increased to 2 seconds
+      }, 800); // Reduced to 800ms for better responsiveness
     }
   }, [activeSection]);
 
   // Scroll-based navigation detection
   useEffect(() => {
     const handleScroll = () => {
-      // Skip scroll detection during manual navigation
+      // Skip scroll detection during manual navigation, but with a shorter timeout
       if (isManualNavigationRef.current) {
-        console.log(
-          "Skipping scroll detection - manual navigation in progress"
-        );
         return;
       }
 
@@ -99,20 +110,107 @@ export default function App() {
       }
     };
 
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Add scroll event listener with throttling
+    let scrollTimeout;
+    const throttledHandleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        handleScroll();
+        scrollTimeout = null;
+      }, 50); // Throttle to 50ms
+    };
+
+    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
 
     // Initial check
     handleScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", throttledHandleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
       // Cleanup timeout on unmount
       if (manualNavigationTimeoutRef.current) {
         clearTimeout(manualNavigationTimeoutRef.current);
       }
     };
-  }, []); // Remove activeSection dependency to prevent circular updates
+  }, [activeSection]); // Re-add activeSection dependency for proper updates
+
+  // Simple wheel event handler for snap scrolling
+  useEffect(() => {
+    const handleWheel = (e) => {
+      // Skip if manual navigation is in progress
+      if (isManualNavigationRef.current) return;
+
+      e.preventDefault();
+
+      const scrollDirection = e.deltaY > 0 ? 1 : -1;
+
+      // Simple sequential snap points - just go to next/previous element
+      const allElements = [
+        welcomeRef.current,
+        aboutRef.current,
+        // Add all project elements from refs
+        ...Object.values(projectRefs.current).filter(Boolean),
+        contactRef.current,
+      ].filter(Boolean); // Remove any null/undefined elements
+
+      // Find current element based on scroll position
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      let currentIndex = 0;
+
+      for (let i = 0; i < allElements.length; i++) {
+        const element = allElements[i];
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + window.scrollY;
+
+        if (scrollPosition >= elementTop) {
+          currentIndex = i;
+        } else {
+          break;
+        }
+      }
+
+      // Calculate next element
+      const nextIndex = Math.max(
+        0,
+        Math.min(currentIndex + scrollDirection, allElements.length - 1)
+      );
+      const nextElement = allElements[nextIndex];
+
+      if (nextElement) {
+        // Set manual navigation flag
+        isManualNavigationRef.current = true;
+
+        nextElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        // Update active section
+        if (nextElement === welcomeRef.current) {
+          setActiveSection("");
+        } else if (nextElement === aboutRef.current) {
+          setActiveSection("about");
+        } else if (Object.values(projectRefs.current).includes(nextElement)) {
+          setActiveSection("projects");
+        } else if (nextElement === contactRef.current) {
+          setActiveSection("contact");
+        }
+
+        // Reset manual navigation flag
+        setTimeout(() => {
+          isManualNavigationRef.current = false;
+        }, 800);
+      }
+    };
+
+    // Add wheel event listener
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   // Handle project hover navigation
   const handleProjectHover = (projectId) => {
@@ -198,6 +296,8 @@ export default function App() {
 
           body {
             overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
           }
           @keyframes fadeInContainer {
             0% {
@@ -406,11 +506,27 @@ export default function App() {
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             overflow-y: auto;
+            overscroll-behavior: contain;
           }
 
           .snap-item {
             scroll-snap-align: start;
             scroll-snap-stop: always;
+          }
+
+          /* Enhanced snap scrolling for stronger snapping */
+          .projects-container {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            overscroll-behavior: contain;
+            scroll-snap-stop: always;
+          }
+
+          .project-item {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            min-height: 100vh;
+            scroll-margin-top: 6rem;
           }
 
           /* Add a visual indicator for snap scroll interaction */
@@ -519,11 +635,11 @@ export default function App() {
       </nav>
 
       {/* Layout Container */}
-      <div className="flex flex-col w-full max-w-6xl mx-auto relative z-10">
+      <div className="flex flex-col w-full max-w-6xl mx-auto relative z-10 snap-y snap-mandatory">
         {/* Banner with animation completion callback */}
         <div
           ref={welcomeRef}
-          className="w-full h-screen flex flex-col justify-center align-center"
+          className="w-full h-screen flex flex-col justify-center align-center snap-start snap-always"
         >
           <WelcomeBanner
             onAnimationComplete={() => {
@@ -543,14 +659,29 @@ export default function App() {
           {/* Main Content - now without the left menu */}
           <main className="">
             <div className="transition-all w-[80vw] duration-500 flex flex-col gap-12">
-              <AboutSection aboutRef={aboutRef} />
+              <div ref={aboutRef} className="snap-start snap-always">
+                <AboutSection />
+              </div>
+
+              {/* Projects Header */}
+              <div className="text-center">
+                <h1 className="text-4xl font-bold text-blue-900 mb-8 babycakes-font">
+                  My Work
+                </h1>
+              </div>
+
+              {/* Individual Projects as separate snap points */}
               <ProjectsSection
                 ref={projectsSectionRef}
-                projectsRef={projectsRef}
                 activeSection={activeSection}
-                projectsContainerRef={projectsContainerRef}
+                onProjectRefs={(refs) => {
+                  Object.assign(projectRefs.current, refs);
+                }}
               />
-              <ContactSection contactRef={contactRef} />
+
+              <div ref={contactRef} className="snap-start snap-always">
+                <ContactSection />
+              </div>
             </div>
           </main>
         </div>

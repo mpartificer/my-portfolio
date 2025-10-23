@@ -16,11 +16,8 @@ const skillColors = PortfolioData.about.skills.reduce((acc, skill) => {
 }, {});
 
 // About Section Component
-const AboutSection = ({ aboutRef }) => (
-  <section
-    ref={aboutRef}
-    className="rounded-2xl p-16 backdrop-blur-lg overflow-scroll h-[85vh] shadow-xl w-[80vw] scroll-mt-24"
-  >
+const AboutSection = () => (
+  <section className="rounded-2xl p-16 backdrop-blur-lg overflow-scroll h-[85vh] shadow-xl w-[80vw] scroll-mt-24">
     <div className="flex flex-row gap-16 mb-8 items-start">
       <div className="shrink-0">
         <img
