@@ -5,7 +5,7 @@ const PortfolioData = {
   about: {
     name: "Megan Forsey",
     title: "Full Stack Software Developer",
-    bio: "I am a full stack software developer in its truest form: enthusiasm for the subjectivity of front end design and user accessibility to the point where I will sit down with your grandma and teach her how to send an e-mail, combined with the organizational drive required for backend work (no task is too small for a spreadsheet if you ask me!)",
+    bio: "I am a full stack software developer in its truest form: enthusiasm for the subjectivity of front end design and user accessibility to the point where I will sit down with your grandma and teach her how to send an e-mail, combined with the organizational drive required for backend work (no task is too small for a spreadsheet if you ask me!) I'm also a home baker, puzzler, and a professional karaoke host. Ask me what D&D characters I'm current playing!",
     skills: [
       "JavaScript",
       "React",
@@ -90,17 +90,13 @@ const PortfolioData = {
       id: 4,
       title: "Karaoke with Megan Website",
       description: [
-        "AI-powered journaling app for hobby bakers",
-        "Gives feedback on baking progress and recipes",
-        "Saves recipes from the web and cookbooks",
-        "Social media functionality for sharing bakes",
+        "Created a fun easy way for my karaoke regulars to submit their videos and be featured on our Instagram page",
       ],
       why: [
-        "I was really over my pie crust being bad",
-        "Gave me an opportunity to learn React, Node.js, and SQL",
+        "Meta crunches down videos between users and I wanted to have higher quality posts",
       ],
-      technologies: ["React Native", "Redux", "Node.js", "MongoDB"],
-      link: "#",
+      technologies: ["React", "Vite", "Vercel", "Google OAuth", "Meta OAuth"],
+      link: "https://karaoke-with-megan-website.vercel.app/#home",
       imageUrl: "../public/images/kwm-img.jpg",
     },
     {

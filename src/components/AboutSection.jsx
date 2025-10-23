@@ -54,7 +54,7 @@ const AboutSection = () => (
       </div>
       <SpotifyPlayer />
       <div className="text-blue-900 text-sm text-center mt-2">
-        Open above in Spotify to get the full experience while your peruse!
+        Open above in Spotify to get the full experience while you peruse!
       </div>
     </div>
   </section>
