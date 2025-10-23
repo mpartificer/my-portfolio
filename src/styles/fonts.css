@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Qilka";
-  src: url("../assets/fonts/Qilka-Bold.otf") format("opentype");
+  src: url("/fonts/Qilka-Bold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
