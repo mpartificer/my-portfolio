@@ -161,7 +161,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                     {project.description.map((point, i) => (
                       <li key={i} className="flex items-start">
                         <span
-                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full ${
+                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full flex-shrink-0 ${
                             bulletPointColors[`${project.id}-what-${i}`]
                           }`}
                         ></span>
@@ -178,7 +178,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                     {project.why.map((point, i) => (
                       <li key={i} className="flex items-start">
                         <span
-                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full ${
+                          className={`inline-block w-4 h-4 mr-2 mt-1 rounded-full flex-shrink-0 ${
                             bulletPointColors[`${project.id}-why-${i}`]
                           }`}
                         ></span>
