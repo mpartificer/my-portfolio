@@ -66,16 +66,53 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
           </div>
 
           <div className="relative z-10">
-            <div className="bg-white bg-opacity-90 h-[80vh] p-6 rounded-xl shadow-sm">
-              <h2 className="text-2xl font-bold text-blue-900 mb-6 babycakes-font">
-                {project.title}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+            <div className="bg-white bg-opacity-90 h-[80vh] p-6 rounded-xl shadow-sm flex flex-col items-center">
+              {/* Title as centered link */}
+              <div className="text-center mb-6">
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-3xl font-bold text-blue-900 babycakes-font hover:text-blue-700 transition-colors"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  <h2 className="text-3xl font-bold text-blue-900 babycakes-font">
+                    {project.title}
+                  </h2>
+                )}
+              </div>
+
+              {/* Centered image */}
+              <div className="mb-6 flex justify-center">
+                <img
+                  src={project.imageUrl}
+                  alt={project.title}
+                  className=" h-auto rounded-lg shadow-md"
+                />
+              </div>
+
+              {/* Centered technology tags */}
+              <div className="mb-6 flex flex-wrap justify-center gap-2">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 bg-yellow rounded-full text-blue-900 text-sm font-medium"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Two-column layout for What and Why */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+                <div className="text-center">
                   <h3 className="text-xl text-blue-900 mb-4 babycakes-font">
                     What it does
                   </h3>
-                  <ul className="space-y-2 text-blue-900">
+                  <ul className="space-y-2 text-blue-900 text-left">
                     {project.description.map((point, i) => (
                       <li key={i} className="flex items-start">
                         <span className="inline-block w-4 h-4 mr-2 mt-1 rounded-full bg-blue"></span>
@@ -83,46 +120,19 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-4">
-                    <h3 className="text-xl text-blue-900 mb-4 babycakes-font">
-                      Why it's cool
-                    </h3>
-                    <ul className="space-y-2 text-blue-900">
-                      {project.why.map((point, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="inline-block w-4 h-4 mr-2 mt-1 rounded-full bg-pink"></span>
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-yellow rounded-full text-blue-900 text-sm font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-block px-4 py-2 bg-blue-900 text-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
-                    >
-                      Check it out
-                    </a>
-                  )}
                 </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="max-w-full h-auto rounded-lg shadow-md max-h-64"
-                  />
+                <div className="text-center">
+                  <h3 className="text-xl text-blue-900 mb-4 babycakes-font">
+                    Why it's cool
+                  </h3>
+                  <ul className="space-y-2 text-blue-900 text-left">
+                    {project.why.map((point, i) => (
+                      <li key={i} className="flex items-start">
+                        <span className="inline-block w-4 h-4 mr-2 mt-1 rounded-full bg-pink"></span>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
