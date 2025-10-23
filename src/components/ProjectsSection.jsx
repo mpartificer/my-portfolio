@@ -1,6 +1,24 @@
 import PortfolioData from "../data/PortfolioData";
 import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 
+// Function to get a random background color class with opacity
+const getRandomColorClass = () => {
+  // Adding opacity directly in the class names (bg-{color}-50 for 40% opacity)
+  const colors = ["bg-pink-50", "bg-yellow-50", "bg-green-50", "bg-teal-50"];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
+
+// Pre-assign random colors to all technologies across all projects to maintain consistency during rerenders
+const technologyColors = PortfolioData.projects.reduce((acc, project) => {
+  project.technologies.forEach((tech) => {
+    if (!acc[tech]) {
+      acc[tech] = getRandomColorClass();
+    }
+  });
+  return acc;
+}, {});
+
 // Projects Section Component with snap scrolling
 const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
   const projectRefs = useRef({});
@@ -99,7 +117,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 bg-yellow rounded-full text-blue-900 text-sm font-medium"
+                    className={`px-3 py-1 ${technologyColors[tech]} rounded-full text-blue-900 text-sm font-medium`}
                   >
                     {tech}
                   </span>
