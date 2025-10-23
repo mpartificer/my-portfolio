@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, memo } from "react";
 
 // Memoized Welcome Banner Component with smooth fade-in and visible overflow
-const WelcomeBanner = memo(() => {
+const WelcomeBanner = memo(({ onAnimationComplete }) => {
   const [animationState, setAnimationState] = useState("initial");
   const hasAnimatedRef = useRef(false);
 
@@ -12,14 +12,32 @@ const WelcomeBanner = memo(() => {
       const timer = setTimeout(() => {
         setAnimationState("animate");
         hasAnimatedRef.current = true;
+
+        // Calculate total animation duration (based on CSS animations)
+        // The last animation is the exclamation mark which finishes at 0.75s (delay) + 2s (animation) = 2.75s
+        const animationDuration = 2750; // in milliseconds
+
+        // Trigger callback when animation completes
+        const completionTimer = setTimeout(() => {
+          if (onAnimationComplete) {
+            onAnimationComplete();
+          }
+        }, animationDuration);
+
+        return () => clearTimeout(completionTimer);
       }, 100);
 
       return () => clearTimeout(timer);
     } else {
       // Skip animation if already played
       setAnimationState("completed");
+
+      // If animation is skipped, still call the completion callback
+      if (onAnimationComplete) {
+        onAnimationComplete();
+      }
     }
-  }, []);
+  }, [onAnimationComplete]);
 
   return (
     <div className="w-full py-4 mb-8 rounded-2xl text-2xl flex justify-center">
