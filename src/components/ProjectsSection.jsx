@@ -111,7 +111,7 @@ const ProjectsSection = forwardRef(({ activeSection, onProjectRefs }, ref) => {
           </div>
 
           <div className="relative z-10">
-            <div className="bg-white bg-opacity-90 h-[80vh] p-6 rounded-xl shadow-sm flex flex-col items-center">
+            <div className="bg-white bg-opacity-90 h-[90vh] p-6 rounded-xl shadow-sm flex flex-col items-center">
               {/* Title as centered link */}
               <div className="text-center mb-6">
                 {project.link ? (
